@@ -1397,11 +1397,13 @@ static int panthor_probe(struct platform_device *pdev)
 	return drm_dev_register(&ptdev->base, 0);
 }
 
-static void panthor_remove(struct platform_device *pdev)
+static int panthor_remove(struct platform_device *pdev)
 {
 	struct panthor_device *ptdev = platform_get_drvdata(pdev);
 
 	panthor_device_unplug(ptdev);
+
+	return 0;
 }
 
 static const struct of_device_id dt_match[] = {
@@ -1418,7 +1420,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
 
 static struct platform_driver panthor_driver = {
 	.probe = panthor_probe,
-	.remove_new = panthor_remove,
+	.remove = panthor_remove,
 	.driver = {
 		.name = "panthor",
 		.pm = &panthor_pm_ops,

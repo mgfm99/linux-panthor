@@ -24,8 +24,6 @@
 #include "panthor_mmu.h"
 #include "panthor_sched.h"
 
-#define CSF_FW_NAME "mali_csffw.bin"
-
 #define PING_INTERVAL_MS			12000
 #define PROGRESS_TIMEOUT_CYCLES			(5ull * 500 * 1024 * 1024)
 #define PROGRESS_TIMEOUT_SCALE_SHIFT		10
@@ -697,15 +695,9 @@ static int panthor_fw_load(struct panthor_device *ptdev)
 	const struct firmware *fw = NULL;
 	struct panthor_fw_binary_iter iter = {};
 	struct panthor_fw_binary_hdr hdr;
-	char fw_path[128];
 	int ret;
 
-	snprintf(fw_path, sizeof(fw_path), "arm/mali/arch%d.%d/%s",
-		 (u32)GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id),
-		 (u32)GPU_ARCH_MINOR(ptdev->gpu_info.gpu_id),
-		 CSF_FW_NAME);
-
-	ret = request_firmware(&fw, fw_path, ptdev->base.dev);
+	ret = request_firmware(&fw, CSF_FW_NAME, ptdev->base.dev);
 	if (ret) {
 		drm_err(&ptdev->base, "Failed to load firmware image '%s'\n",
 			CSF_FW_NAME);

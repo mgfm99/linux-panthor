@@ -10,6 +10,7 @@
 
 struct panthor_kernel_bo;
 
+#define CSF_FW_NAME "mali_csffw.bin"
 #define MAX_CSGS				31
 #define MAX_CS_PER_CSG                          32
 
